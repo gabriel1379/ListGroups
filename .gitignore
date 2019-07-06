@@ -1,3 +1,4 @@
 .idea/
 venv/
 *.php
+__pycache__
