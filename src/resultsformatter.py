@@ -6,9 +6,10 @@ if TYPE_CHECKING:
 
 class ResultsFormatter:
     def format_group_results(self, results_source: Dict[str, List['Path']]) -> str:
+        results_source_sorted = self.__sort_results(results_source)
         results_formatted = []
 
-        for group_name, files in results_source.items():
+        for group_name, files in results_source_sorted.items():
             group_results = []
             num_files_in_group = len(files)
 
@@ -21,6 +22,15 @@ class ResultsFormatter:
             )
 
         return "".join(results_formatted)
+
+    def __sort_results(self, results_source: Dict[str, List['Path']]) -> Dict[str, List['Path']]:
+        keys_sorted = sorted(results_source)
+        results_sorted = {}
+
+        for key in keys_sorted:
+            results_sorted[key] = results_source[key]
+
+        return results_sorted
 
     def __compose_header(self, group_name: str, num_files_in_group: int, group_results: List[str]) -> None:
         members_word_form = self.__determine_word_form("member", num_files_in_group)
