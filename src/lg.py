@@ -15,7 +15,7 @@ class GroupLister:
     def list_groups(self, from_here: pathlib.Path):
         files = self.__fileGatherer.gather_files(from_here, 'php')
         self.__gather_groups(files)
-        print(self.__resultsFormatter.display_results(self.__groups))
+        print(self.__resultsFormatter.format_group_results(self.__groups))
 
     def __gather_groups(self, files: 'Generator'):
         for file in files:
