@@ -3,17 +3,19 @@ from typing import Generator, List
 import pathlib
 
 from filegatherer import FileGatherer
+from resultsformatter import ResultsFormatter
 
 
 class GroupLister:
     def __init__(self):
         self.__fileGatherer: FileGatherer = FileGatherer()
         self.__groups: dict = {}
+        self.__resultsFormatter: ResultsFormatter = ResultsFormatter()
 
     def list_groups(self, from_here: pathlib.Path):
         files = self.__fileGatherer.gather_files(from_here, 'php')
         self.__gather_groups(files)
-        self.__display_results()
+        print(self.__resultsFormatter.display_results(self.__groups))
 
     def __gather_groups(self, files: 'Generator'):
         for file in files:
@@ -46,11 +48,6 @@ class GroupLister:
             return
 
         self.__groups[group].append(file)
-
-    def __display_results(self):
-        for group_name, files in self.__groups.items():
-            group_num = len(files)
-            print(f"{group_name}: {group_num} in total, in the files: {files}")
 
 
 if __name__ == '__main__':
