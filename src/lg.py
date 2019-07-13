@@ -2,6 +2,7 @@ from typing import Generator, List
 
 import pathlib
 
+import constants
 from filegatherer import FileGatherer
 from resultsformatter import ResultsFormatter
 
@@ -30,14 +31,16 @@ class GroupLister:
 
     def __process_lines(self, lines: List[str], file: pathlib.Path):
         for line in lines:
-            annotation_at = line.find("@group")
+            annotation_at = line.find(
+                constants.get_const_group_annotation()
+            )
 
             if annotation_at > -1:
                 group_name = self.__extract_group_name(line, annotation_at)
                 self.__record_group(group_name, file)
 
     def __extract_group_name(self, line: str, annotation_at: int) -> str:
-        group_pos = annotation_at + 7
+        group_pos = annotation_at + constants.get_const_group_annotation_length() + 1
         group_name = line[group_pos:]
 
         return group_name
